@@ -24,23 +24,72 @@ var page = {
 		var _this = this;
 		this.$shippingBox.on('get-shippings',function(ev,shippings){
 			_this.renderShipping(shippings)
-			console.log(shippings)
 		})
 		//1.弹出地址框
 		this.$shippingBox.on('click','.shipping-add',function(){
 			_modal.show()
+		})
+		//2.删除地址
+		this.$shippingBox.on('click','.shipping-delete',function(ev){
+			//阻止冒泡防止点击时选中
+			ev.stopPropagation();
+			if(_util.confirm('你确定要删除这个地址吗?')){
+				var shippingId = $(this).parents('.shipping-item').data('shipping-id')
+				_shipping.deleteShipping({shippingId:shippingId},function(shippings){
+					_this.renderShipping(shippings)
+				},function(msg){
+					_util.showErrorMsg(msg)
+				})
+			}
+		})
+		//3.编辑地址
+		this.$shippingBox.on('click','.shipping-edit',function(ev){
+			//阻止冒泡防止点击时选中
+			ev.stopPropagation();
+			var shippingId = $(this).parents('.shipping-item').data('shipping-id')
+			_shipping.getShipping({shippingId:shippingId},function(shipping){
+				_modal.show(shipping)
+			})
+		})
+		//4.选择地址
+		this.$shippingBox.on('click','.shipping-item',function(){
+			var $this = $(this);
+			$this.addClass('active')
+			.siblings('.shipping-item').removeClass('active');
+
+			//保存选中的地址ID
+			_this.selectedShippingId = $this.data('shipping-id')
+
+		})
+		//5.去支付
+		this.$productBox.on('click','.btn-submit',function(){
+			if(_this.selectedShippingId){
+				_order.createOrder({shippingId:_this.selectedShippingId},function(order){
+					window.location.href = "./payment.html?orderNo="+order.orderNo
+				},function(msg){
+					_util.showErrorMsg(msg)
+				})
+			}else{
+				_util.showErrorMsg('请选择地址后再提交!!!')
+			}
 		})									
 	},
 	loadShipping:function(){
 		var _this = this;
 		_shipping.getShippingList(function(shippings){
-			console.log(shippings)
 			_this.renderShipping(shippings)
 		},function(msg){
 			_util.showErrorMsg(msg)
 		})
 	},
 	renderShipping:function(shippings){
+		var _this = this;
+		//标注别选中的地址
+		shippings.forEach(function(shipping){
+			if(shipping._id == _this.selectedShippingId){
+				shipping.active = true
+			}
+		})
 		var html = _util.render(shippingTpl,{
 			shippings:shippings
 		})

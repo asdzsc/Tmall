@@ -10,7 +10,8 @@ router.get('/info',(req,res)=>{
 		data:{
 			orderNo:req.query.orderNo,
 			//该地址应该从支付宝接口获取
-			qrUrl:"http://127.0.0.1:3000/alipay-qr/pay.jpg"
+			qrUrl:"https://s2.ax1x.com/2019/05/06/EDptmV.jpg",
+
 		}
 	})
 

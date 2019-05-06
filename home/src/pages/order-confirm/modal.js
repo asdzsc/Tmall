@@ -102,15 +102,26 @@ var _modal = {
 		//3.发送请求
 		if(validateResult.status){//验证通过
 			formErr.hide()
-			//增加地址
-			_shipping.addShipping(formData,function(shippings){
-				_util.showSuccessMsg('添加地址成功')
-				$('.shipping-box').trigger('get-shippings',[shippings])
-				_this.hideModal()
-				console.log(shippings)
-			},function(msg){
-				formErr.show(msg)
-			})
+			if (this.shipping) {
+				//编辑地址
+				formData.shippingId = this.shipping._id;
+				_shipping.editShipping(formData,function(shippings){
+					_util.showSuccessMsg('编辑地址成功')
+					$('.shipping-box').trigger('get-shippings',[shippings])
+					_this.hideModal()
+				},function(msg){
+					formErr.show(msg)
+				})	
+			}else {
+				//增加地址
+				_shipping.addShipping(formData,function(shippings){
+					_util.showSuccessMsg('添加地址成功')
+					$('.shipping-box').trigger('get-shippings',[shippings])
+					_this.hideModal()
+				},function(msg){
+					formErr.show(msg)
+				})
+			}
 		}
 		else{//验证失败
 			formErr.show(validateResult.msg)
