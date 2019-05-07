@@ -57,7 +57,7 @@ var page = {
 		},function(msg){
 			_util.showErrorMsg(msg)
 		})
-	}
+	},
 }
 $(function(){
 	page.init()

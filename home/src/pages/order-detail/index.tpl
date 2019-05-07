@@ -59,7 +59,7 @@
 			</li>
 		</ul>
 		{{#productList}}	
-			<ul class="product-item"">
+			<ul class="product-item">
 				<li class="product-info text-ellipsis">
 					<a href="./detail.html?productId={{productId}}" class="link" target="_blank">
 						<img src="{{image}}" alt="">

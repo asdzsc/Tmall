@@ -36,10 +36,10 @@
 				<li class="order-payment">
 					<span class="lable">订单金额:</span>
 					<span class="text">￥{{payment}}</span>
-				</li>
+				</li>		
 				<li class="order-detail">
 					<a class="link" target="_blank" href="./order-detail.html?orderNo={{orderNo}}">查看详情</a>
-				</li>											
+				</li>									
 			</ul>
 				{{#productList}}
 				<ul class="product-item">

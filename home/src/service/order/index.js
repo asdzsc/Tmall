@@ -41,7 +41,7 @@ var _order = {
 			success:success,
 			error:error			
 		})			
-	}			
+	}	
 }
 
 module.exports = _order;
